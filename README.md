@@ -1,6 +1,6 @@
 # silakarang_atv
 
-A new Flutter project.
+Aplikasi Silakarang ATV, untuk kebutuhan TA
 
 ## Getting Started
 
