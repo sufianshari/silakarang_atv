@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:silakarang_atv/ui/pages/login/login_page.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,6 +23,15 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: backgroundColor1,
         elevation: 0,
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.login_sharp),
+            tooltip: 'Login Administrator',
+            onPressed: () {
+              Get.to(const LoginPage(), transition: Transition.rightToLeft);
+            },
+          ),
+        ],
       ),
       resizeToAvoidBottomInset: false,
       body: Column(

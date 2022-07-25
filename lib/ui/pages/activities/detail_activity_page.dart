@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 import 'package:silakarang_atv/models/aktifitas_model.dart';
 import 'package:silakarang_atv/models/testimoni_model.dart';
 import 'package:silakarang_atv/providers/testimoni_provider.dart';
+import 'package:silakarang_atv/ui/pages/activities/activity_add_galery_page.dart';
+import 'package:silakarang_atv/ui/pages/activities/activity_edit_page.dart';
 import 'package:silakarang_atv/utilities/currency.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
 import 'package:intl/intl.dart';
@@ -52,6 +55,30 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add_a_photo_outlined),
+            tooltip: 'Add Galery Activity',
+            onPressed: () {
+              Get.to(const ActivityAddGaleryPage(),
+                  transition: Transition.rightToLeft);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.edit),
+            tooltip: 'Edit Activity',
+            onPressed: () {
+              Get.to(
+                  ActivityEditPage(
+                      id: widget.id,
+                      nama: widget.title,
+                      hargamin: widget.hargamin,
+                      hargamax: widget.hargamax,
+                      desc: widget.desc),
+                  transition: Transition.rightToLeft);
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

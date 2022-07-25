@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:silakarang_atv/ui/pages/about/about_page.dart';
+import 'package:silakarang_atv/ui/pages/activities/activity_add_page.dart';
+import 'package:silakarang_atv/ui/pages/activities/activity_edit_page.dart';
 import 'package:silakarang_atv/ui/pages/activities/activity_page.dart';
 import 'package:silakarang_atv/ui/pages/fotogrametri/detail_fotogrametri_page.dart';
 import 'package:silakarang_atv/ui/pages/fotogrametri/fotogrametri_page.dart';
@@ -44,6 +46,10 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/about',
             page: () => const AboutPage(),
+            transition: Transition.rightToLeft),
+        GetPage(
+            name: '/activity-add',
+            page: () => const ActivityAddPage(),
             transition: Transition.rightToLeft),
         GetPage(
             name: '/photogrametridetail',
