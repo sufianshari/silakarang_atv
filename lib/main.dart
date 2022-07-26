@@ -6,6 +6,8 @@ import 'package:silakarang_atv/ui/pages/activities/activity_add_page.dart';
 import 'package:silakarang_atv/ui/pages/activities/activity_edit_page.dart';
 import 'package:silakarang_atv/ui/pages/activities/activity_page.dart';
 import 'package:silakarang_atv/ui/pages/fotogrametri/detail_fotogrametri_page.dart';
+import 'package:silakarang_atv/ui/pages/fotogrametri/detail_location_page.dart';
+import 'package:silakarang_atv/ui/pages/fotogrametri/detail_route_page.dart';
 import 'package:silakarang_atv/ui/pages/fotogrametri/fotogrametri_page.dart';
 import 'package:silakarang_atv/ui/pages/home/home_page.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
@@ -54,6 +56,14 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/photogrametridetail',
             page: () => const PhotogrametryDetailPage(),
+            transition: Transition.rightToLeft),
+        GetPage(
+            name: '/detaillocation',
+            page: () => const DetailLocationPage(),
+            transition: Transition.rightToLeft),
+        GetPage(
+            name: '/detailroute',
+            page: () => const DetailRoutePage(),
             transition: Transition.rightToLeft),
       ],
     );

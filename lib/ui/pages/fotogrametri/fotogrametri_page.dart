@@ -54,7 +54,7 @@ class _PhotogrametryPageState extends State<PhotogrametryPage> {
             listCard(
               'Location Silakarang ATV',
               'Location',
-              '/photogrametridetail',
+              '/detaillocation',
               FaIcon(
                 FontAwesomeIcons.road,
                 size: 34,
@@ -64,7 +64,7 @@ class _PhotogrametryPageState extends State<PhotogrametryPage> {
             listCard(
               'Routes Silakarang ATV',
               'Routes of adventures',
-              '/photogrametridetail',
+              '/detailroute',
               FaIcon(
                 FontAwesomeIcons.route,
                 size: 34,

@@ -111,6 +111,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_cube:
+    dependency: "direct main"
+    description:
+      name: flutter_cube
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   flutter_html:
     dependency: "direct main"
     description:
@@ -652,7 +659,7 @@ packages:
     source: hosted
     version: "3.0.1"
   vector_math:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: vector_math
       url: "https://pub.dartlang.org"
