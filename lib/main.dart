@@ -10,6 +10,7 @@ import 'package:silakarang_atv/ui/pages/fotogrametri/detail_location_page.dart';
 import 'package:silakarang_atv/ui/pages/fotogrametri/detail_route_page.dart';
 import 'package:silakarang_atv/ui/pages/fotogrametri/fotogrametri_page.dart';
 import 'package:silakarang_atv/ui/pages/home/home_page.dart';
+import 'package:silakarang_atv/ui/pages/profile/profile_page.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
 
 void main() {
@@ -64,6 +65,10 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/detailroute',
             page: () => const DetailRoutePage(),
+            transition: Transition.rightToLeft),
+        GetPage(
+            name: '/profile',
+            page: () => const ProfilePage(),
             transition: Transition.rightToLeft),
       ],
     );

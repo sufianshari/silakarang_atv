@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silakarang_atv/ui/pages/login/login_page.dart';
+import 'package:silakarang_atv/ui/pages/profile/profile_page.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +14,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String user_uid = '';
+  String user_nama = '';
+  String user_email = '';
+  String user_phone = '';
+  String user_aktif = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  _loadUserData() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    String authLogin = localStorage.getString('login').toString();
+
+    if (authLogin != null) {
+      setState(() {
+        user_uid = localStorage.getString('uid').toString();
+        user_nama = localStorage.getString('nama').toString();
+        user_email = localStorage.getString('email').toString();
+        user_phone = localStorage.getString('phone').toString();
+        user_aktif = localStorage.getString('aktif').toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,12 +54,39 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.login_sharp, color: Color(0xffaf910e),),
-            tooltip: 'Login Administrator',
-            onPressed: () {
-              Get.to(const LoginPage(), transition: Transition.rightToLeft);
-            },
-          ),
+                  icon: const Icon(
+                    Icons.login_sharp,
+                    color: Color(0xffaf910e),
+                  ),
+                  tooltip: 'Login Administrator',
+                  onPressed: () {
+                    Get.to(const LoginPage(),
+                        transition: Transition.rightToLeft);
+                  },
+                )
+          /* (user_uid.isEmpty)
+              ? IconButton(
+                  icon: const Icon(
+                    Icons.login_sharp,
+                    color: Color(0xffaf910e),
+                  ),
+                  tooltip: 'Login Administrator',
+                  onPressed: () {
+                    Get.to(const LoginPage(),
+                        transition: Transition.rightToLeft);
+                  },
+                )
+              : IconButton(
+                  icon: const Icon(
+                    Icons.people_alt_rounded,
+                    color: Color(0xffaf910e),
+                  ),
+                  tooltip: 'User Login',
+                  onPressed: () {
+                    Get.to(const ProfilePage(),
+                        transition: Transition.rightToLeft);
+                  },
+                ), */
         ],
       ),
       resizeToAvoidBottomInset: false,

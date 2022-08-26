@@ -1,8 +1,10 @@
-import 'dart:async';
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silakarang_atv/api/api_util.dart';
 import 'package:silakarang_atv/providers/login_provider.dart';
 import 'package:silakarang_atv/ui/widgets/textfield_widget.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
@@ -15,74 +17,84 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String errormsg = "";
+  bool error = false, showprogress = false;
+  String email = "", password = "";
+
   final TextEditingController _usernameController =
       TextEditingController(text: '');
   final TextEditingController _passwordController =
       TextEditingController(text: '');
   late FocusNode _passwordFocusNode;
 
-  bool isAuth = false;
-  bool isLoading = false;
+  // bool isAuth = false;
+  // bool isLoading = false;
+
+  startLogin() async {
+    String apiurl = ApiUtil.BASE_URL_API + 'login-admin.php';
+    print(password);
+
+    var response = await http.post(Uri.parse(apiurl), body: {
+      'email': email, //get the email text
+      'password': password //get password text
+    });
+
+    if (response.statusCode == 200) {
+      var jsondata = json.decode(response.body);
+      if (jsondata["error"]) {
+        setState(() {
+          showprogress = false; //don't show progress indicator
+          error = true;
+          errormsg = jsondata["msg"];
+        });
+      } else {
+        print(jsondata["data"]["nama"]);
+
+        setState(() {
+          error = false;
+          showprogress = false;
+        });
+        //save the data returned from server
+        String uid = jsondata["data"]["id"];
+        String nama = jsondata["data"]["nama"];
+        String email = jsondata["data"]["email"];
+        String phone = jsondata["data"]["phone"];
+        String aktif = jsondata["data"]["aktif"];
+
+        //simpan di local DB
+        SharedPreferences localStorage = await SharedPreferences.getInstance();
+        localStorage.setString('login', 'adminlogin');
+        localStorage.setString('uid', uid);
+        localStorage.setString('nama', nama);
+        localStorage.setString('email', email);
+        localStorage.setString('phone', phone);
+        localStorage.setString('aktif', aktif);
+
+        //and navigate to home page
+        Get.offAllNamed('/');
+      }
+    } else {
+      setState(() {
+        showprogress = false; //don't show progress indicator
+        error = true;
+        errormsg = "Error during connecting to server.";
+      });
+    }
+  }
+
   @override
   void initState() {
-    super.initState();
-    getAktif();
-    startTimer();
+    email = "";
+    password = "";
+    errormsg = "";
+    error = false;
+    showprogress = false;
     _passwordFocusNode = FocusNode();
-  }
-
-  Future<void> getAktif() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var token = localStorage.getString('aktif');
-    if (token != null) {
-      setState(() {
-        isAuth = true;
-      });
-      print("aktif = " + token);
-    }
-  }
-
-  startTimer() {
-    var _duration = const Duration(milliseconds: 2000);
-    return Timer(_duration, cekLogin);
-  }
-
-  cekLogin() async {
-    if (isAuth) {
-      Get.toNamed('/');
-    }
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    //proses login
-    handleSignIn() async {
-      setState(() {
-        isLoading = true;
-      });
-
-      if (await AuthProvider().login(
-        email: _usernameController.text,
-        password: _passwordController.text,
-      )) {
-        Get.offAllNamed('/');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: dangerColor,
-            content: const Text(
-              'Gagal Login!',
-              textAlign: TextAlign.center,
-            ),
-          ),
-        );
-      }
-
-      setState(() {
-        isLoading = false;
-      });
-    }
-
     Widget _logo() => Center(
           child: Image.asset(
             'assets/images/logo.png',
@@ -103,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
           autoFocus: false,
           onChanged: (value) {
             _usernameController.text;
+            email = value;
           },
           onFieldSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -123,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
           focusNode: _passwordFocusNode,
           onChanged: (value) {
             _passwordController.text;
+            password = value;
           },
         ),
       );
@@ -134,15 +148,31 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: double.infinity,
         color: primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        onPressed: handleSignIn,
-        child: Text(
-          "Log In",
-          style: lightTextStyle.copyWith(
-            fontSize: 17,
-            fontWeight: regular,
-            letterSpacing: 0.5,
-          ),
-        ),
+        onPressed: () {
+          setState(() {
+            //show progress indicator on click
+            showprogress = true;
+          });
+          startLogin();
+        },
+        child: showprogress
+            ? SizedBox(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.orange[100],
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                      Colors.deepOrangeAccent),
+                ),
+              )
+            : Text(
+                "Log In",
+                style: lightTextStyle.copyWith(
+                  fontSize: 17,
+                  fontWeight: regular,
+                  letterSpacing: 0.5,
+                ),
+              ),
       );
     }
 
@@ -171,6 +201,14 @@ class _LoginPageState extends State<LoginPage> {
                         'Login Administrator',
                         style: primaryTextStyle.copyWith(fontSize: 24),
                       ),
+                      Container(
+                        //show error message here
+                        margin: EdgeInsets.only(top: 30),
+                        padding: EdgeInsets.all(10),
+                        child: error ? errmsg(errormsg) : Container(),
+                        //if error == true then show error message
+                        //else set empty container as child
+                      ),
                       emailInput(),
                       passwordInput(),
                       SizedBox(
@@ -183,6 +221,27 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget errmsg(String text) {
+    //error message widget.
+    return Container(
+      padding: const EdgeInsets.all(15.00),
+      margin: const EdgeInsets.only(bottom: 8.00),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.red,
+          border: Border.all(color: Colors.red, width: 2)),
+      child: Row(children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(right: 6.00),
+          child: const Icon(Icons.info, color: Colors.white),
+        ), // icon for error message
+
+        Text(text, style: const TextStyle(color: Colors.white, fontSize: 18)),
+        //show error message text
+      ]),
     );
   }
 }
