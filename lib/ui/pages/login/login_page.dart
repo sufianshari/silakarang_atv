@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silakarang_atv/providers/login_provider.dart';
 import 'package:silakarang_atv/ui/widgets/textfield_widget.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
 
@@ -16,15 +21,68 @@ class _LoginPageState extends State<LoginPage> {
       TextEditingController(text: '');
   late FocusNode _passwordFocusNode;
 
+  bool isAuth = false;
   bool isLoading = false;
   @override
   void initState() {
     super.initState();
+    getAktif();
+    startTimer();
     _passwordFocusNode = FocusNode();
+  }
+
+  Future<void> getAktif() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('aktif');
+    if (token != null) {
+      setState(() {
+        isAuth = true;
+      });
+      print("aktif = " + token);
+    }
+  }
+
+  startTimer() {
+    var _duration = const Duration(milliseconds: 2000);
+    return Timer(_duration, cekLogin);
+  }
+
+  cekLogin() async {
+    if (isAuth) {
+      Get.toNamed('/');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    //proses login
+    handleSignIn() async {
+      setState(() {
+        isLoading = true;
+      });
+
+      if (await AuthProvider().login(
+        email: _usernameController.text,
+        password: _passwordController.text,
+      )) {
+        Get.offAllNamed('/');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: dangerColor,
+            content: const Text(
+              'Gagal Login!',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     Widget _logo() => Center(
           child: Image.asset(
             'assets/images/logo.png',
@@ -76,9 +134,7 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: double.infinity,
         color: primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        onPressed: () {
-          print('tes login');
-        },
+        onPressed: handleSignIn,
         child: Text(
           "Log In",
           style: lightTextStyle.copyWith(

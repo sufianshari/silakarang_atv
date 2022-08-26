@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.login_sharp),
+            icon: const Icon(Icons.login_sharp, color: Color(0xffaf910e),),
             tooltip: 'Login Administrator',
             onPressed: () {
               Get.to(const LoginPage(), transition: Transition.rightToLeft);

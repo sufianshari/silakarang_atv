@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:silakarang_atv/models/aktifitas_model.dart';
+import 'package:silakarang_atv/models/galeri_model.dart';
 import 'package:silakarang_atv/models/testimoni_model.dart';
+import 'package:silakarang_atv/providers/galeri_provider.dart';
 import 'package:silakarang_atv/providers/testimoni_provider.dart';
 import 'package:silakarang_atv/ui/pages/activities/activity_add_galery_page.dart';
 import 'package:silakarang_atv/ui/pages/activities/activity_edit_page.dart';
+import 'package:silakarang_atv/ui/pages/activities/slider_widget.dart';
 import 'package:silakarang_atv/utilities/currency.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
-import 'package:intl/intl.dart';
 
 class AktifitasDetailPage extends StatefulWidget {
   final String id;
@@ -32,6 +33,7 @@ class AktifitasDetailPage extends StatefulWidget {
 
 class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
   List<TestimoniModel> testimonis = [];
+  List<GaleriModel> galeries = [];
   String query = '';
 
   @override
@@ -47,7 +49,17 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
 
   Future init() async {
     final testi = await TestimoniProvider.getTestimoni(idTestimoni: widget.id);
-    setState(() => testimonis = testi);
+    final galeri = await GaleriProvider.getGaleri(idGaleri: widget.id);
+    setState(() {
+      testimonis = testi;
+      galeries = galeri;
+    });
+  }
+
+  Widget slider() {
+    return SliderWidget(
+      aktifitasid: widget.id,
+    );
   }
 
   @override
@@ -86,11 +98,7 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: 120.0,
-                height: 120.0,
-              ),
+              slider(),
               SizedBox(
                 height: defaultMargin,
               ),
@@ -111,7 +119,11 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
               const SizedBox(
                 height: 8,
               ),
-              Html(data: widget.desc),
+              // Html(data: widget.desc),
+              Text(
+                widget.desc,
+                textAlign: TextAlign.justify,
+              ),
               const Divider(color: Colors.grey),
               Text(
                 "Testimoni Aktifitas",

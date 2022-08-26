@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cube/flutter_cube.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
 
 class DetailRoutePage extends StatefulWidget {
@@ -21,12 +21,15 @@ class _DetailRoutePageState extends State<DetailRoutePage> {
         centerTitle: true,
       ),
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Cube(
-          onSceneCreated: (Scene scene) {
-            scene.world.add(Object(fileName: 'assets/route/route.obj'));
-          },
-        ),
+      body: ModelViewer(
+          backgroundColor: Color.fromARGB(0xFF, 0xEE, 0xEE, 0xEE),
+          src: 'assets/route/location.glb', // a bundled asset file
+          alt: "A 3D model of an astronaut",
+          ar: true,
+          arModes: ['scene-viewer', 'webxr', 'quick-look'],
+          autoRotate: true,
+          cameraControls: true,
+          // iosSrc: 'https://silakarang.tugas-akhir.web.id/uploads/location.glb',
       ),
     );
   }
