@@ -261,13 +261,6 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
               Get.offAllNamed('/');
             }).catchError((e) {
               progressDialog.dismiss();
-              Get.snackbar(
-                "", "",
-                backgroundColor: Colors.red[500],
-                // icon: FaIcon(FontAwesomeIcons.timesCircle),
-                titleText: const Text('Gagal'),
-                messageText: const Text("Pengiriman Data Gagal"),
-              );
             });
           },
           child: Text(

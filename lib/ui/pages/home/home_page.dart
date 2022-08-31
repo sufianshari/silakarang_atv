@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         centerTitle: true,
         actions: [
-          IconButton(
+         /*  IconButton(
                   icon: const Icon(
                     Icons.login_sharp,
                     color: Color(0xffaf910e),
@@ -63,8 +63,8 @@ class _HomePageState extends State<HomePage> {
                     Get.to(const LoginPage(),
                         transition: Transition.rightToLeft);
                   },
-                )
-          /* (user_uid.isEmpty)
+                ) */
+          (user_uid.isEmpty)
               ? IconButton(
                   icon: const Icon(
                     Icons.login_sharp,
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                     Get.to(const ProfilePage(),
                         transition: Transition.rightToLeft);
                   },
-                ), */
+                ),
         ],
       ),
       resizeToAvoidBottomInset: false,

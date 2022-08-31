@@ -62,7 +62,7 @@ class _PhotogrametryPageState extends State<PhotogrametryPage> {
               ),
             ),
             listCard(
-              'Routes Silakarang ATV',
+              'Routes of The ATV Track',
               'Routes of adventures',
               '/detailroute',
               FaIcon(
