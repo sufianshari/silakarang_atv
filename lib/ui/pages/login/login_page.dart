@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silakarang_atv/api/api_util.dart';
-import 'package:silakarang_atv/providers/login_provider.dart';
+import 'package:silakarang_atv/ui/pages/home/home_page.dart';
 import 'package:silakarang_atv/ui/widgets/textfield_widget.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
 
@@ -69,9 +69,17 @@ class _LoginPageState extends State<LoginPage> {
         localStorage.setString('email', email);
         localStorage.setString('phone', phone);
         localStorage.setString('aktif', aktif);
+        localStorage.setString('userlogin', 'sedanglogin');
 
         //and navigate to home page
         Get.offAllNamed('/');
+        /* Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const HomePage(),
+          ),
+          (route) => false,
+        ); */
       }
     } else {
       setState(() {

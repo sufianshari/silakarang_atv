@@ -25,34 +25,36 @@ class _AboutPageState extends State<AboutPage> {
         centerTitle: true,
       ),
       resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/logo.png',
-              width: 120.0,
-              height: 120.0,
-            ),
-            Center(
-              child: Text(
-                "Silakarang ATV",
-                textAlign: TextAlign.center,
-                style: primaryTextStyle.copyWith(fontSize: 16),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/about.jpg',
+                // width: 500,
+                // height: 200.0,
               ),
-            ),
-            SizedBox(
-              height: defaultMargin,
-            ),
-            Text(
-              textDesc,
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: defaultMargin,
-            ),
-            Text(textKontak),
-          ],
+              Center(
+                child: Text(
+                  "Silakarang ATV",
+                  textAlign: TextAlign.center,
+                  style: primaryTextStyle.copyWith(fontSize: 16),
+                ),
+              ),
+              SizedBox(
+                height: defaultMargin,
+              ),
+              Text(
+                textDesc,
+                textAlign: TextAlign.justify,
+              ),
+              SizedBox(
+                height: defaultMargin,
+              ),
+              Text(textKontak),
+            ],
+          ),
         ),
       ),
     );

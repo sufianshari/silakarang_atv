@@ -12,11 +12,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
- /*  String user_uid = '';
+  String user_uid = '';
   String user_nama = '';
   String user_email = '';
   String user_phone = '';
-  String user_aktif = ''; */
+  String user_aktif = '';
 
   @override
   void initState() {
@@ -30,8 +30,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (authLogin != null) {
       setState(() {
-       /*  user_uid = localStorage.getString('uid').toString();
+        user_uid = localStorage.getString('uid').toString();
         user_nama = localStorage.getString('nama').toString();
+        /*  user_uid = localStorage.getString('uid').toString();
         user_email = localStorage.getString('email').toString();
         user_phone = localStorage.getString('phone').toString();
         user_aktif = localStorage.getString('aktif').toString(); */
@@ -71,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 20,
               ),
               Text(
-                'Akun Profil',
+                'Akun Profil' + user_nama,
                 style: primaryTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: semiBold,
@@ -126,6 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
       localStorage.remove('email');
       localStorage.remove('phone');
       localStorage.remove('aktif');
+      localStorage.remove('userlogin');
     });
 
     Navigator.pushAndRemoveUntil(

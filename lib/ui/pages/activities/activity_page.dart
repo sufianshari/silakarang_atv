@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silakarang_atv/models/aktifitas_model.dart';
 import 'package:silakarang_atv/providers/aktifitas_provider.dart';
 import 'package:silakarang_atv/ui/pages/activities/activity_add_page.dart';
@@ -21,11 +22,24 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
   List<AktifitasModel> books = [];
   String query = '';
   Timer? debouncer;
+  String statuslogin = '';
 
   @override
   void initState() {
     super.initState();
+    _loadUserData();
     init();
+  }
+
+  _loadUserData() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    String authLogin = localStorage.getString('login').toString();
+
+    if (authLogin != null) {
+      setState(() {
+        statuslogin = localStorage.getString('userlogin').toString();
+      });
+    }
   }
 
   @override
@@ -59,20 +73,21 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           style: lightTextStyle,
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: 'Add Activity',
-            onPressed: () {
-              Get.to(const ActivityAddPage(),
-                  transition: Transition.rightToLeft);
-            },
-          ),
-        ],
       ),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
+          (statuslogin == 'sedanglogin')
+              ? Container(
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      Get.to(const ActivityAddPage(),
+                          transition: Transition.rightToLeft);
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text('Add Activity')),
+              )
+              : const SizedBox(),
           buildSearch(),
           Expanded(
             child: Padding(

@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   String user_email = '';
   String user_phone = '';
   String user_aktif = '';
+  String statuslogin = '';
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
         user_email = localStorage.getString('email').toString();
         user_phone = localStorage.getString('phone').toString();
         user_aktif = localStorage.getString('aktif').toString();
+        statuslogin = localStorage.getString('userlogin').toString();
       });
     }
   }
@@ -46,48 +48,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Selamat Datang",
+          "Selamat Datang ",
           style: primaryTextStyle,
         ),
         backgroundColor: backgroundColor1,
         elevation: 0,
         centerTitle: true,
-        actions: [
-         /*  IconButton(
-                  icon: const Icon(
-                    Icons.login_sharp,
-                    color: Color(0xffaf910e),
-                  ),
-                  tooltip: 'Login Administrator',
-                  onPressed: () {
-                    Get.to(const LoginPage(),
-                        transition: Transition.rightToLeft);
-                  },
-                ) */
-          (user_uid.isEmpty)
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.login_sharp,
-                    color: Color(0xffaf910e),
-                  ),
-                  tooltip: 'Login Administrator',
-                  onPressed: () {
-                    Get.to(const LoginPage(),
-                        transition: Transition.rightToLeft);
-                  },
-                )
-              : IconButton(
-                  icon: const Icon(
-                    Icons.people_alt_rounded,
-                    color: Color(0xffaf910e),
-                  ),
-                  tooltip: 'User Login',
-                  onPressed: () {
-                    Get.to(const ProfilePage(),
-                        transition: Transition.rightToLeft);
-                  },
-                ),
-        ],
       ),
       resizeToAvoidBottomInset: false,
       body: Column(
@@ -149,6 +115,27 @@ class _HomePageState extends State<HomePage> {
                 color: textColor,
               ),
             ),
+            (statuslogin == 'sedanglogin')
+                ? listCard(
+                    'Profile',
+                    'Profile Administrator',
+                    '/profile',
+                    FaIcon(
+                      FontAwesomeIcons.userCircle,
+                      size: 34,
+                      color: textColor,
+                    ),
+                  )
+                : listCard(
+                    'Login',
+                    'Login Administrator',
+                    '/login',
+                    FaIcon(
+                      FontAwesomeIcons.signInAlt,
+                      size: 34,
+                      color: textColor,
+                    ),
+                  )
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ndialog/ndialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silakarang_atv/models/testimoni_model.dart';
 import 'package:silakarang_atv/providers/testimoni_provider.dart';
 import 'package:silakarang_atv/ui/pages/activities/activity_add_galery_page.dart';
@@ -43,6 +44,7 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
   String _nama = '';
   String _email = '';
   String _deskripsi = '';
+  String statuslogin = '';
 
   List<TestimoniModel> testimonis = [];
   // String query = '';
@@ -50,7 +52,19 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
   @override
   void initState() {
     super.initState();
+    _loadUserData();
     init();
+  }
+
+  _loadUserData() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    String authLogin = localStorage.getString('login').toString();
+
+    if (authLogin != null) {
+      setState(() {
+        statuslogin = localStorage.getString('userlogin').toString();
+      });
+    }
   }
 
   @override
@@ -89,30 +103,6 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add_a_photo_outlined),
-            tooltip: 'Add Galery Activity',
-            onPressed: () {
-              Get.to(const ActivityAddGaleryPage(),
-                  transition: Transition.rightToLeft);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.edit),
-            tooltip: 'Edit Activity',
-            onPressed: () {
-              Get.to(
-                  ActivityEditPage(
-                      id: widget.id,
-                      nama: widget.title,
-                      hargamin: widget.hargamin,
-                      hargamax: widget.hargamax,
-                      desc: widget.desc),
-                  transition: Transition.rightToLeft);
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -120,6 +110,35 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              (statuslogin == 'sedanglogin')
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.add_a_photo_outlined),
+                          label: const Text('Add Photo Activity'),
+                          onPressed: () {
+                            Get.to(ActivityAddGaleryPage(id: widget.id),
+                                transition: Transition.rightToLeft);
+                          },
+                        ),
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.edit),
+                          label: const Text('Edit Activity'),
+                          onPressed: () {
+                            Get.to(
+                                ActivityEditPage(
+                                    id: widget.id,
+                                    nama: widget.title,
+                                    hargamin: widget.hargamin,
+                                    hargamax: widget.hargamax,
+                                    desc: widget.desc),
+                                transition: Transition.rightToLeft);
+                          },
+                        ),
+                      ],
+                    )
+                  : const SizedBox(),
               slider(),
               SizedBox(
                 height: defaultMargin,

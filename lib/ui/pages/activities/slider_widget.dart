@@ -89,7 +89,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                       );
                     },
                     options: CarouselOptions(
-                      height: 150,
+                      height: 200,
                       autoPlay: true,
                       enlargeCenterPage: false,
                       aspectRatio: 16 / 9,
