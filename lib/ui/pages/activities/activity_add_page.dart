@@ -65,22 +65,22 @@ class _ActivityAddPageState extends State<ActivityAddPage> {
         ),
         centerTitle: true,
       ),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: ListView(
-          children: [
-            buildTitle('Activity Name'),
-            buildNama(),
-            buildTitle('Activity Minimal Cost'),
-            buildHargaMin(),
-            buildTitle('Activity Maximal Cost'),
-            buildHargaMax(),
-            buildTitle('Description'),
-            buildDeskripsi(),
-            buildTombol(context),
-          ],
+          child: ListView(
+            children: [
+              buildTitle('Activity Name'),
+              buildNama(),
+              buildTitle('Activity Minimal Cost'),
+              buildHargaMin(),
+              buildTitle('Activity Maximal Cost'),
+              buildHargaMax(),
+              buildTitle('Description'),
+              buildDeskripsi(),
+              buildTombol(context),
+            ],
+          ),
         ),
-      ),
     );
   }
 

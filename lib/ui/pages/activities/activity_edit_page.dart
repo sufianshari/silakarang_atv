@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:silakarang_atv/models/dropdown_list.dart';
 import 'package:silakarang_atv/providers/aktifitas_provider.dart';
 import 'package:silakarang_atv/ui/widgets/textfield_widget.dart';
 import 'package:silakarang_atv/utilities/themes.dart';
@@ -40,6 +41,7 @@ class _ActivityEditPageState extends State<ActivityEditPage> {
   String _hargaMin = '';
   String _hargaMax = '';
   String _deskripsi = '';
+  String selectedStatus = 'Aktif';
 
   @override
   void initState() {
@@ -82,19 +84,26 @@ class _ActivityEditPageState extends State<ActivityEditPage> {
         ),
         centerTitle: true,
       ),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: ListView(
           children: [
-            buildTitle('Activity Name'),
-            buildNama(),
-            buildTitle('Activity Minimal Cost'),
-            buildHargaMin(),
-            buildTitle('Activity Maximal Cost'),
-            buildHargaMax(),
-            buildTitle('Description'),
-            buildDeskripsi(),
-            buildTombol(context),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                buildTitle('Activity Name'),
+                buildNama(),
+                buildTitle('Activity Minimal Cost'),
+                buildHargaMin(),
+                buildTitle('Activity Maximal Cost'),
+                buildHargaMax(),
+                buildTitle('Description'),
+                buildDeskripsi(),
+                buildTitle('Status'),
+                buildStatus(),
+                buildTombol(context),
+              ],
+            ),
           ],
         ),
       ),
@@ -171,6 +180,30 @@ class _ActivityEditPageState extends State<ActivityEditPage> {
         child: Text(
           title,
           style: blackFontStyle2,
+        ),
+      );
+
+  Widget buildStatus() => Container(
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.black),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton(
+            isExpanded: true,
+            hint: const Text("Pilih Status"),
+            items: dropdownItemStatus,
+            value: selectedStatus,
+            onChanged: (value) {
+              setState(() {
+                selectedStatus = value.toString();
+              });
+            },
+            // underline: SizedBox(),
+          ),
         ),
       );
 

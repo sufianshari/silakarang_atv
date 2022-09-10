@@ -23,7 +23,7 @@ class DetailLocationPageState extends State<DetailLocationPage> {
       resizeToAvoidBottomInset: false,
       body: ModelViewer(
         backgroundColor: Color.fromARGB(0xFF, 0xEE, 0xEE, 0xEE),
-        src: 'assets/location.glb', // a bundled asset file
+        src: 'assets/track2.stl', // a bundled asset file
         // src:'https://silakarang.tugas-akhir.web.id/uploads/location.glb?raw=true',
         alt: "Lokasi",
         ar: true,

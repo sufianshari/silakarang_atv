@@ -104,6 +104,7 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -306,7 +307,7 @@ class _AktifitasDetailPageState extends State<AktifitasDetailPage> {
       child: TextFieldWidget(
         hint: 'Masukkan Nama',
         inputType: TextInputType.text,
-        icon: Icons.motorcycle,
+        icon: Icons.people,
         iconColor: primaryColor,
         textController: namaController,
         inputAction: TextInputAction.next,

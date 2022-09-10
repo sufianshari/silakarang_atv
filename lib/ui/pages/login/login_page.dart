@@ -186,49 +186,49 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       primary: true,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text("Login Administrator"),
       ),
       body: SafeArea(
-        child: Expanded(
-          child: ListView(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 50.0, left: defaultMargin, right: defaultMargin),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _logo(),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                      Text(
-                        'Login Administrator',
-                        style: primaryTextStyle.copyWith(fontSize: 24),
-                      ),
-                      Container(
-                        //show error message here
-                        margin: EdgeInsets.only(top: 30),
-                        padding: EdgeInsets.all(10),
-                        child: error ? errmsg(errormsg) : Container(),
-                        //if error == true then show error message
-                        //else set empty container as child
-                      ),
-                      emailInput(),
-                      passwordInput(),
-                      SizedBox(
-                        height: defaultMargin,
-                      ),
-                      signInButton(),
-                    ]),
-              ),
-            ],
+          child: Expanded(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 50.0, left: defaultMargin, right: defaultMargin),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _logo(),
+                        SizedBox(
+                          height: defaultMargin,
+                        ),
+                        Text(
+                          'Login Administrator',
+                          style: primaryTextStyle.copyWith(fontSize: 24),
+                        ),
+                        Container(
+                          //show error message here
+                          margin: EdgeInsets.only(top: 30),
+                          padding: EdgeInsets.all(10),
+                          child: error ? errmsg(errormsg) : Container(),
+                          //if error == true then show error message
+                          //else set empty container as child
+                        ),
+                        emailInput(),
+                        passwordInput(),
+                        SizedBox(
+                          height: defaultMargin,
+                        ),
+                        signInButton(),
+                      ]),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 
